@@ -1,0 +1,23 @@
+.notification {
+    border: solid;
+    border-color: green;
+    border-radius: 5px;
+    background-color: lightgray;
+    padding: 1%;
+}
+
+.notification h2 {
+    color: green;
+}
+
+.error-message {
+    border: solid;
+    border-color: red;
+    border-radius: 5px;
+    background-color: lightgray;
+    padding: 1%;
+}
+
+.error-message h2 {
+    color: red;
+}
