@@ -1,12 +1,14 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
-app.use(express.json())
 
 var morgan = require('morgan')
 morgan.token('body', function (req) {
     return JSON.stringify(req.body)
 })
 
+app.use(express.json())
+app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
@@ -36,7 +38,7 @@ const generateId = () => {
     const max = persons.length * 100
     const id = Math.floor(Math.random() * max);
 
-    return id;
+    return String(id);
 }
 
 app.get('/api/persons', (req, res) => {

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import Filter from './Filter'
-import PersonForm from './PersonForm'
-import Persons from './Persons'
-import Notification from './Notification'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import Notification from './components/Notification'
 import calls from './services/calls'
 import './App.css'
 
@@ -36,8 +36,8 @@ const App = () => {
   const handleDelete = (name) => {
     const foundPerson = persons.find((person) => person.name === name);
     const id = foundPerson.id
-    calls.remove(id).then(res => {
-      const newList = persons.filter(p => p.id !== res.data.id)
+    calls.remove(id).then(() => {
+      const newList = persons.filter(p => p.id !== id)
       setPersons(newList)
     })
     setMessage(`Deleted ${name}`);
