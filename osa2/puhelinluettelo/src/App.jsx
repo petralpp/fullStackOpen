@@ -60,6 +60,13 @@ const App = () => {
           }, 5000)
           setNewName('');
           setNewNumber('');
+      }).catch(error => {
+        setErrorMsg(true)
+          setMessage(`Error: ${error.response.data.error}`);
+          setTimeout(() => {
+            setMessage(null)
+            setErrorMsg(false)
+          }, 5000)
       })
     } else {
       if (confirm(`${found.name} is already added to phonebook, replace the old number with a new one ?`)) {
