@@ -14,7 +14,7 @@ DELETE http://localhost:3001/api/persons/1
 
 ###
 
-POST http://localhost:3001/api/persons 
+POST http://localhost:3001/api/persons
 Content-type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/persons 
+POST http://localhost:3001/api/persons
 Content-type: application/json
 
 {
@@ -40,3 +40,29 @@ Content-type: application/json
 {
     "number": "040-123-4567"
 }
+
+# Some example requests for the Render application below
+
+###
+
+GET https://fullstackopen-phonebook-5m3l.onrender.com/api/persons/
+
+###
+
+GET https://fullstackopen-phonebook-5m3l.onrender.com/api/persons/1
+
+###
+
+GET https://fullstackopen-phonebook-5m3l.onrender.com/info
+
+###
+
+POST https://fullstackopen-phonebook-5m3l.onrender.com/api/persons/
+Content-type: application/json
+
+{
+    "name": "Donald Duck",
+    "number": "040-123-4567"
+}
+
+###
