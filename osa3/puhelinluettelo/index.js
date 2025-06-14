@@ -9,8 +9,8 @@ morgan.token('body', function (req) {
 })
 
 app.use(express.json())
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(express.static('dist'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/api/persons', (req, res) => {
     Contact.find({}).then(result => res.json(result))
@@ -22,23 +22,26 @@ app.get('/api/persons', (req, res) => {
     res.send(`<p>${info}</p><p>${date}</p>`)
 }) */
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
     const id = req.params.id
-    Contact.findById({id}).then(result => {
+    Contact.findById(id).then(result => {
         if (result) {
             res.json(result)
         } else {
             res.status(404).end()
         }
     })
+    .catch(error => {
+        next(error)})
 })
 
-/*app.delete('/api/persons/:id', (req, res) => {
-    const id = req.params.id
-    persons = persons.filter(p => p.id !== id)
-
-    res.status(204).end()
-}) */
+app.delete('/api/persons/:id', (req, res, next) => {
+  Contact.findByIdAndDelete(req.params.id)
+    .then(result => {
+      res.status(204).end()
+    })
+    .catch(error => next(error))
+})
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
@@ -55,6 +58,22 @@ app.post('/api/persons', (req, res) => {
         return res.json(savedContact)
     })
 })
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
+
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return res.status(400).send({ error: 'malformatted id' })
+  }
+  next(error)
+}
+app.use(errorHandler)
+
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
