@@ -59,6 +59,25 @@ app.post('/api/persons', (req, res) => {
     })
 })
 
+app.put('/api/persons/:id', (req, res, next) => {
+    const id = req.params.id
+    const number = req.body.number
+    console.log("numero: ", number)
+    
+    Contact.findById(id).then(result => {
+        console.log("löytykö?", result)
+        if (result) {
+            result.number = number
+            return result.save().then((updatedContact) => {
+                res.json(updatedContact)
+            })
+        } else {
+            res.status(404).end()
+        }
+    })
+    .catch(error => next(error))
+})
+
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
 }
