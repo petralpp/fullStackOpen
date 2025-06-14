@@ -12,15 +12,17 @@ app.use(express.json())
 app.use(express.static('dist'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
+app.get('/info', (req, res) => {
+    const date = new Date()
+    Contact.find({}).then(result => {
+        const info = `Phonebook has info for ${result.length} people`
+        res.send(`<p>${info}</p><p>${date}</p>`)
+    })
+})
+
 app.get('/api/persons', (req, res) => {
     Contact.find({}).then(result => res.json(result))
 })
-
-/*app.get('/info', (req, res) => {
-    const date = new Date()
-    const info = `Phonebook has info for ${persons.length} people`
-    res.send(`<p>${info}</p><p>${date}</p>`)
-}) */
 
 app.get('/api/persons/:id', (req, res, next) => {
     const id = req.params.id
@@ -62,10 +64,8 @@ app.post('/api/persons', (req, res) => {
 app.put('/api/persons/:id', (req, res, next) => {
     const id = req.params.id
     const number = req.body.number
-    console.log("numero: ", number)
     
     Contact.findById(id).then(result => {
-        console.log("löytykö?", result)
         if (result) {
             result.number = number
             return result.save().then((updatedContact) => {
