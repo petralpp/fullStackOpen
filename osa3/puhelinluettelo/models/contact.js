@@ -5,26 +5,26 @@ const url = process.env.MONGODB_URI
 
 console.log('Connecting to database')
 mongoose.connect(url).then(() => {
-    console.log("Connected to MongoDB")
+  console.log('Connected to MongoDB')
 }).catch((error) => {
-    console.log('Error connecting to MongoDB:', error.message)
+  console.log('Error connecting to MongoDB:', error.message)
 })
 
 const contactSchema = new mongoose.Schema({
-    name: {
-      type: String,
-      minlength: 3
-    },
-    number: {
-      type: String,
-      minlength: 8,
-      validate: {
+  name: {
+    type: String,
+    minlength: 3
+  },
+  number: {
+    type: String,
+    minlength: 8,
+    validate: {
       validator: function(v) {
-        return /^\d{2,3}-\d{5,}$/.test(v);
+        return /^\d{2,3}-\d{5,}$/.test(v)
       },
       message: props => `${props.value} is not a valid phone number!`
     },
-    }
+  }
 })
 
 contactSchema.set('toJSON', {
@@ -37,4 +37,4 @@ contactSchema.set('toJSON', {
 
 const Contact = mongoose.model('Contact', contactSchema)
 
-module.exports = Contact;
+module.exports = Contact
