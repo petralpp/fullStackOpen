@@ -46,6 +46,14 @@ const test_blogs = [
     url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
     likes: 2,
     __v: 0
+  },
+  {
+    _id: "5a422b3a1b54a676234d17f10",
+    title: "Something descriptive",
+    author: "Geralt of Rivia",
+    url: "",
+    likes: 12,
+    __v: 0
   }  
 ]
 

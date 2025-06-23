@@ -34,6 +34,32 @@ describe('total likes', () => {
 
     test('of a bigger list is calculated right', () => {
         const result = listHelper.totalLikes(test_blogs)
-        assert.strictEqual(result, 36)
+        assert.strictEqual(result, 48)
+    })
+})
+
+describe('favorite blog', () => {
+    const testObject = {
+        _id: "5a422b3a1b54a676234d17f9",
+        title: "Canonical string reduction",
+        author: "Edsger W. Dijkstra",
+        url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+        likes: 12,
+        __v: 0
+    }
+    
+    test('is the one with the most likes', () => {
+        const result = listHelper.favoriteBlog(test_blogs)
+        assert.deepStrictEqual(result, testObject)
+    })
+
+    test('is one of the blogs with highest and same amount of likes', () => {
+        const result = listHelper.favoriteBlog(test_blogs)
+        assert.strictEqual(result.likes, 12)
+    })
+
+    test('is undefined for empty list', () => {
+        const result = listHelper.favoriteBlog([])
+        assert.deepStrictEqual(result, undefined)
     })
 })
