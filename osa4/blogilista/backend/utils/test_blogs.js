@@ -57,6 +57,74 @@ const test_blogs = [
   }  
 ]
 
+const most_blogs = [
+    {
+    _id: "5a422b891b54a676234d17fa",
+    title: "First class tests",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    likes: 10,
+    __v: 0
+  },
+  {
+    _id: "5a422ba71b54a676234d17fb",
+    title: "TDD harms architecture",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    likes: 0,
+    __v: 0
+  },
+  {
+    _id: "5a422bc61b54a676234d17fc",
+    title: "Type wars",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    likes: 2,
+    __v: 0
+  },
+  {
+    _id: "1a",
+    title: "Fake Title 1a",
+    author: "Fake Author 1",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    likes: 10,
+    __v: 0
+  },
+  {
+    _id: "1b",
+    title: "Fake Title 1b",
+    author: "Fake Author 1",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    likes: 0,
+    __v: 0
+  },
+  {
+    _id: "1c",
+    title: "Fake Title 1c",
+    author: "Fake Author 1",
+    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    likes: 2,
+    __v: 0
+  },
+  {
+    _id: "2a",
+    title: "Fake Title 2a",
+    author: "Fake Author 2",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    likes: 10,
+    __v: 0
+  },
+  {
+    _id: "2b",
+    title: "Fake Title 2b",
+    author: "Fake Author 2",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    likes: 0,
+    __v: 0
+  }
+]
+
 module.exports = {
-    test_blogs
+    test_blogs,
+    most_blogs
 }

@@ -1,7 +1,7 @@
 const { test, describe } = require('node:test')
 const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
-const { test_blogs } = require('../utils/test_blogs')
+const { test_blogs, most_blogs } = require('../utils/test_blogs')
 
 test('dummy returns one', () => {
   const blogs = []
@@ -61,5 +61,21 @@ describe('favorite blog', () => {
     test('is undefined for empty list', () => {
         const result = listHelper.favoriteBlog([])
         assert.deepStrictEqual(result, undefined)
+    })
+})
+
+describe('author with most blogs', () => {
+    test('is Robert C. Martin', () => {
+        const testObject = {
+            author: "Robert C. Martin",
+            blogs: 3
+        }
+        const result = listHelper.mostBlogs(most_blogs)
+        assert.deepStrictEqual(result, testObject)
+    })
+
+    test('is undefined for empty list', () => {
+        const result = listHelper.mostBlogs([])
+        assert.strictEqual(result, undefined)
     })
 })
