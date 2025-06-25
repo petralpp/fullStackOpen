@@ -66,16 +66,38 @@ describe('favorite blog', () => {
 
 describe('author with most blogs', () => {
     test('is Robert C. Martin', () => {
-        const testObject = {
-            author: "Robert C. Martin",
-            blogs: 3
-        }
-        const result = listHelper.mostBlogs(most_blogs)
+        const testObject = { author: "Robert C. Martin", blogs: 3 }
+        const result = listHelper.mostBlogs(test_blogs)
         assert.deepStrictEqual(result, testObject)
     })
 
     test('is undefined for empty list', () => {
         const result = listHelper.mostBlogs([])
         assert.strictEqual(result, undefined)
+    })
+
+    test('is Robert C. Martin when number of blogs is equal', () => {
+        const testObject = { author: "Robert C. Martin", blogs: 3 }
+        const result = listHelper.mostBlogs(most_blogs)
+        assert.deepStrictEqual(result, testObject)
+    })
+})
+
+describe('author with most likes', () => {
+    test('is Edsger W. Dijkstra', () => {
+        const testObject = { author: "Edsger W. Dijkstra", likes: 17 }
+        const result = listHelper.mostLikes(test_blogs)
+        assert.deepStrictEqual(result, testObject)
+    })
+
+    test('is undefined for empty list', () => {
+        const result = listHelper.mostLikes([])
+        assert.strictEqual(result, undefined)
+    })
+
+    test('is Robert C. Martin when likes are equal', () => {
+        const testObject = { author: 'Robert C. Martin', likes: 12 }
+        const result = listHelper.mostLikes(most_blogs)
+        assert.deepStrictEqual(result, testObject)
     })
 })
