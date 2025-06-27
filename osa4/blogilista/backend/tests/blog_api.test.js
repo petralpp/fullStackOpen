@@ -98,10 +98,42 @@ describe('when there are blogs initially saved', () => {
         const titles = blogsAtEnd.map(b => b.title)
         assert(!titles.includes(blogToDelete.title))
 
-        assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
+        assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
       })
   })
 
+  describe('editing a blog\'s', () => {
+    test('likes succeeds if id is valid', async () => {
+      const blogsAtStart = await blogsInDb()
+      const blogToEdit = blogsAtStart[0]
+      const editedBlog = { 
+        title: blogToEdit.title,
+        author: blogToEdit.author,
+        url: blogToEdit.url,
+        likes: blogToEdit.likes + 1 
+      }
+
+      const response = await api.put(`/api/blogs/${blogToEdit.id}`).send(editedBlog).expect(200).expect('Content-Type', /application\/json/)
+      assert.strictEqual(response.body.likes, editedBlog.likes)
+
+      const blogsAtEnd = await blogsInDb()
+      assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
+    })
+  })
+
+  describe('viewing a blog', () => {
+    test('succeeds if id is valid', async () => {
+          const blogsAtStart = await blogsInDb()
+          const blogToView = blogsAtStart[0]
+
+          const blog = await api
+            .get(`/api/blogs/${blogToView.id}`)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+          assert.deepStrictEqual(blog.body, blogToView)
+    })
+  })
 })
 
 after(async () => {
