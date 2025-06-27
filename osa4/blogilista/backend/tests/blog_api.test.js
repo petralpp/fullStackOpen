@@ -36,10 +36,10 @@ describe('when there are blogs initially saved', () => {
         const testBlog = {
           title: 'Something new',
           author: 'Unknown',
-          url: '',
+          url: 'someUrl',
           likes: 2
         }
-        const response = await api.post('/api/blogs').send(testBlog).expect(201).expect('Content-Type', /application\/json/)
+        await api.post('/api/blogs').send(testBlog).expect(201).expect('Content-Type', /application\/json/)
         
         const blogsAfter = await blogsInDb()
         assert.strictEqual(blogsAfter.length, initialBlogs.length + 1)
@@ -48,13 +48,25 @@ describe('when there are blogs initially saved', () => {
         assert(title.includes('Something new'))
       })
 
-      test('fails with invalid data', async () => {
+      test('fails with missing title', async () => {
         const testBlog = {
           author: 'Unknown',
           url: '',
           likes: 2
         }
-        const response = await api.post('/api/blogs').send(testBlog).expect(400)
+        await api.post('/api/blogs').send(testBlog).expect(400)
+        
+        const blogsAfter = await blogsInDb()
+        assert.strictEqual(blogsAfter.length, initialBlogs.length)
+      })
+
+      test('fails with missing url', async () => {
+        const testBlog = {
+          title: 'Something new',
+          author: 'Unknown',
+          likes: 2
+        }
+        await api.post('/api/blogs').send(testBlog).expect(400)
         
         const blogsAfter = await blogsInDb()
         assert.strictEqual(blogsAfter.length, initialBlogs.length)
@@ -64,7 +76,7 @@ describe('when there are blogs initially saved', () => {
         const testBlog = {
           title: 'Something new',
           author: 'Unknown',
-          url: ''
+          url: 'someUrl'
         }
         const response = await api.post('/api/blogs').send(testBlog).expect(201)
         assert.strictEqual(response.body.likes, 0)
