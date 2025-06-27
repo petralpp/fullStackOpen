@@ -15,10 +15,7 @@ describe('when there are blogs initially saved', () => {
     })
 
     test('blogs are returned as json', async () => {
-      await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+      await api.get('/api/blogs').expect(200).expect('Content-Type', /application\/json/)
     })
 
     test('all blogs are returned', async () => {
@@ -42,11 +39,7 @@ describe('when there are blogs initially saved', () => {
           url: '',
           likes: 2
         }
-        const response = await api
-          .post('/api/blogs')
-          .send(testBlog)
-          .expect(201)
-          .expect('Content-Type', /application\/json/)
+        const response = await api.post('/api/blogs').send(testBlog).expect(201).expect('Content-Type', /application\/json/)
         
         const blogsAfter = await blogsInDb()
         assert.strictEqual(blogsAfter.length, initialBlogs.length + 1)
@@ -61,13 +54,23 @@ describe('when there are blogs initially saved', () => {
           url: '',
           likes: 2
         }
-        const response = await api
-          .post('/api/blogs')
-          .send(testBlog)
-          .expect(400)
+        const response = await api.post('/api/blogs').send(testBlog).expect(400)
         
         const blogsAfter = await blogsInDb()
         assert.strictEqual(blogsAfter.length, initialBlogs.length)
+      })
+
+      test('without likes is appointed a value', async () => {
+        const testBlog = {
+          title: 'Something new',
+          author: 'Unknown',
+          url: ''
+        }
+        const response = await api.post('/api/blogs').send(testBlog).expect(201)
+        assert.strictEqual(response.body.likes, 0)
+
+        const blogsAfter = await blogsInDb()
+        assert.strictEqual(blogsAfter.length, initialBlogs.length + 1)
       })
     })
 
