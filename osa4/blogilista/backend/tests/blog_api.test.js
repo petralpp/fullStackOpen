@@ -85,6 +85,22 @@ describe('when there are blogs initially saved', () => {
         assert.strictEqual(blogsAfter.length, initialBlogs.length + 1)
       })
     })
+    
+    describe('removing a blog', () => {
+      test('succeeds with status code 204 if id is valid', async () => {
+        const blogsAtStart = await blogsInDb()
+        const blogToDelete = blogsAtStart[0]
+
+        await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+        const blogsAtEnd = await blogsInDb()
+
+        const titles = blogsAtEnd.map(b => b.title)
+        assert(!titles.includes(blogToDelete.title))
+
+        assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
+      })
+  })
 
 })
 
