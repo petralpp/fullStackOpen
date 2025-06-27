@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-const { initialBlogs, blogsInDb } = require('./test_helper')
+const { initialBlogs, blogsInDb, nonExistingId } = require('./test_helper')
 
 const api = supertest(app)
 
@@ -100,6 +100,12 @@ describe('when there are blogs initially saved', () => {
 
         assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
       })
+
+      test('fails if id is completely invalid ', async () => {
+        const invalidId = 'notValidAtAll'
+        await api.delete(`/api/blogs/${invalidId}`).expect(400)
+    })
+
   })
 
   describe('editing a blog\'s', () => {
@@ -119,6 +125,20 @@ describe('when there are blogs initially saved', () => {
       const blogsAtEnd = await blogsInDb()
       assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
     })
+
+    test('likes fails if id is invalid', async () => {
+      const blogsAtStart = await blogsInDb()
+      const blogToEdit = blogsAtStart[0]
+      const editedBlog = { 
+        title: blogToEdit.title,
+        author: blogToEdit.author,
+        url: blogToEdit.url,
+        likes: blogToEdit.likes + 1 
+      }
+      const invalidId = await nonExistingId()
+
+      await api.put(`/api/blogs/${invalidId}`).send(editedBlog).expect(404)
+    })
   })
 
   describe('viewing a blog', () => {
@@ -132,6 +152,11 @@ describe('when there are blogs initially saved', () => {
             .expect('Content-Type', /application\/json/)
 
           assert.deepStrictEqual(blog.body, blogToView)
+    })
+
+    test('fails if id is invalid', async () => {
+      const invalidId = await nonExistingId()
+      await api.get(`/api/blogs/${invalidId}`).expect(404)
     })
   })
 })
