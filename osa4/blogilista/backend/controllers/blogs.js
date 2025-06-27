@@ -19,13 +19,14 @@ blogsRouter.get('/:id', (request, response, next) => {
         next(error))
 })
 
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', async (request, response, next) => {
   const blog = new Blog(request.body)
-
-  blog.save().then((result) => {
-    response.status(201).json(result)
-  }).catch(error => 
-    response.status(400).send({ error: error.message }))
+  try {
+    const savedBlog = await blog.save()
+    response.status(201).json(savedBlog)
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 blogsRouter.delete('/:id', (request, response, next) => {
