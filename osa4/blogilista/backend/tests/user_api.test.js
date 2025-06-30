@@ -63,6 +63,50 @@ describe('When there is initially one user at database', () => {
 
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
       })
+
+      test('creation fails with proper statuscode and message if username is less than three characters', async () => {
+        const testUser = { username: 'ei', name: 'fail', password: 'feilaava' }
+        const usersAtStart = await usersInDb()
+
+        const result = await api.post('/api/users').send(testUser).expect(400).expect('Content-Type', /application\/json/)
+        assert(result.body.error.includes('Path `username` (`ei`) is shorter than the minimum allowed length (3)'))
+
+        const usersAtEnd = await usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+
+      test('creation fails with proper statuscode and message if username is missing', async () => {
+        const testUser = {  name: 'fail', password: 'feilaava' }
+        const usersAtStart = await usersInDb()
+
+        const result = await api.post('/api/users').send(testUser).expect(400).expect('Content-Type', /application\/json/)
+        assert(result.body.error.includes('Path `username` is required'))
+
+        const usersAtEnd = await usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+
+      test('creation fails with proper statuscode and message if password is less than three characters', async () => {
+        const testUser = { username: 'kelpaa', name: 'kelpi', password: 'ei' }
+        const usersAtStart = await usersInDb()
+
+        const result = await api.post('/api/users').send(testUser).expect(400).expect('Content-Type', /application\/json/)
+        assert(result.body.error.includes('password is missing or less than 3 characters'))
+
+        const usersAtEnd = await usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+
+      test('creation fails with proper statuscode and message if password is missing', async () => {
+        const testUser = {  username: 'kelpaa', name: 'kelpi' }
+        const usersAtStart = await usersInDb()
+
+        const result = await api.post('/api/users').send(testUser).expect(400).expect('Content-Type', /application\/json/)
+        assert(result.body.error.includes('password is missing or less than 3 characters'))
+
+        const usersAtEnd = await usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
   })
 })
 
