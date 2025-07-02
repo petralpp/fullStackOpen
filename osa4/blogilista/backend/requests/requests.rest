@@ -1,22 +1,5 @@
-POST http://localhost:3003/api/users
-Content-Type: application/json
-
-{
-  "username": "someAuthor", "name": "ST Author", "password": "auth1"
-}
-
-###
 
 GET http://localhost:3003/api/users
-
-###
-
-POST http://localhost:3003/api/blogs
-Content-Type: application/json
-
-{
-  "title": "Something", "author": "Another Author", "url": "author.com", "likes": 5
-}
 
 ###
 
