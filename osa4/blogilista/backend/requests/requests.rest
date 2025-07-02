@@ -19,14 +19,6 @@ Content-Type: application/json
   "username": "newTestUser", "password": "goodPassword"
 }
 
-###
-
-POST http://localhost:3003/api/blogs 
-Content-Type: application/json
-
-{
-  "title": "Ducking around", "author": "Donald Duck", "url": "String", "likes": 5
-}
 
 ###
 
