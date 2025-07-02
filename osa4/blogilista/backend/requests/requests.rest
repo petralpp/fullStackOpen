@@ -3,6 +3,24 @@ GET http://localhost:3003/api/users
 
 ###
 
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "newTestUser", "name": "FirstnameLastname", "password": "goodPassword"
+}
+
+###
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "newTestUser", "password": "goodPassword"
+}
+
+###
+
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
 
