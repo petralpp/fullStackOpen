@@ -2,6 +2,7 @@ const { test, after, before, beforeEach, describe } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const jwt = require('jsonwebtoken')
 const app = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -85,6 +86,16 @@ describe('when there are blogs initially saved', () => {
       assert.strictEqual(blogsAfter.length, initialBlogs.length)
     })
 
+    test('fails with missing token', async () => {
+      const testBlog = {
+        title: 'Something new',
+        author: 'Unknown',
+        url: 'someUrl',
+        likes: 2
+      }
+      await api.post('/api/blogs').send(testBlog).expect(401)
+    })
+
     test('without likes is appointed a value', async () => {
       const testBlog = {
         title: 'Something new',
@@ -127,6 +138,14 @@ describe('when there are blogs initially saved', () => {
       const invalidId = 'notValidAtAll'
       const loggedUser = await api.post('/api/login').send(testUser)
       await api.delete(`/api/blogs/${invalidId}`).set('Authorization', `Bearer ${loggedUser.body.token}`).expect(400)
+    })
+
+    test('fails with missing token', async () => {
+      const blogToDelete = { title: 'Something new', author: 'Unknown', url: 'someUrl', likes: 2 }
+      const loggedUser = await api.post('/api/login').send(testUser)
+      const savedBlog = await api.post('/api/blogs').set('Authorization', `Bearer ${loggedUser.body.token}`).send(blogToDelete).expect(201)
+
+      await api.delete(`/api/blogs/${savedBlog.body.id}`).expect(401)
     })
   })
 
