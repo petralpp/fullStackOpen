@@ -75,6 +75,24 @@ const App = () => {
     }
   }
 
+  const updateBlog = async (blog) => {
+    try {
+      const updatedBlog = await blogService.update(blog)
+      setBlogs(blogs.map(b => {
+        if (b.id === updatedBlog.id) {
+          return updatedBlog
+        }
+        return b
+      }))
+    } catch (exception) {
+      console.log(exception)
+      setNotification({message: "Something went wrong", type: "error"})
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+    }
+  }
+
   return (
     <div>
       { user ?
@@ -89,10 +107,11 @@ const App = () => {
           <BlogForm addBlog={addBlog} toggleForm={toggleBlogForm}/>
           <button onClick={() => toggleBlogForm(false)}>Cancel</button>
           </>
-        : <button onClick={() => toggleBlogForm(true)}>New blog</button>
+        : 
+        <button onClick={() => toggleBlogForm(true)}>New blog</button>
         }
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
         )}
       </>
         :

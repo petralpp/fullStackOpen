@@ -38,7 +38,7 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
       author,
       url,
       likes: likes ?? 0,
-      user: user._id
+      user: user
     })
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -72,7 +72,7 @@ blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
 blogsRouter.put('/:id', async (request, response, next) => {
   const { title, author, url, likes } = request.body
   try {
-    const blog = await Blog.findById(request.params.id)
+    let blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
     if (!blog) {
         return response.status(404).end()
       }
