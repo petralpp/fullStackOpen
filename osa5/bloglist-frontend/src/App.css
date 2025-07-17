@@ -1,0 +1,19 @@
+#notification-error {
+    border: solid;
+    border-color: rgb(254, 70, 70);
+    color: red;
+    background-color: rgb(195, 194, 194);
+}
+
+#notification-success {
+    border: solid;
+    border-color: darkgreen;
+    color: green;
+    background-color: rgb(195, 194, 194);
+}
+
+.notification-div {
+    padding: 2%;
+    font-size: large;
+    font-weight: bold;
+}
