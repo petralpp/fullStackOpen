@@ -11,6 +11,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
+  const [showBlogForm, setShowBlogForm] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -51,6 +52,10 @@ const App = () => {
     setUser(null)
   }
 
+  const toggleBlogForm = (toggle) => {
+    setShowBlogForm(toggle)
+  }
+
   const addBlog = async (blog) => {
     try {
       const savedBlog = await blogService.create(blog)
@@ -78,8 +83,14 @@ const App = () => {
         <Notification message={notification} />
         <p>{user.name ? user.name : user.username} logged in</p>
         <button onClick={handleLogout}>Logout</button>
-        <h2>Create new blog</h2>
-        <BlogForm addBlog={addBlog}/>
+        { showBlogForm ?
+         <>
+          <h2>Create new blog</h2>
+          <BlogForm addBlog={addBlog} toggleForm={toggleBlogForm}/>
+          <button onClick={() => toggleBlogForm(false)}>Cancel</button>
+          </>
+        : <button onClick={() => toggleBlogForm(true)}>New blog</button>
+        }
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
