@@ -5,14 +5,14 @@ const BlogForm = ({ addBlog, toggleForm }) => {
     const [author, setAuthor] = useState("")
     const [url, setUrl] = useState("")
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const newBlog = {
             title: title,
             author: author,
             url: url
         }
-        addBlog(newBlog)
+        await addBlog(newBlog)
         toggleForm(false)
         setTitle("")
         setAuthor("")

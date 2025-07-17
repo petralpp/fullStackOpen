@@ -17,3 +17,8 @@
     font-size: large;
     font-weight: bold;
 }
+
+.blog-div {
+    border: solid;
+    padding: 1%
+}
