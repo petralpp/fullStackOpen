@@ -92,6 +92,23 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async (blog) => {
+    try {
+      await blogService.remove(blog.id)
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+      setNotification({message: `Blog ${blog.title} removed`, type: "success"})
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+    } catch (exception) {
+      console.log(exception)
+      setNotification({message: exception.response.data.error, type: "error"})
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+    }
+  }
+
   const sortBlogs = (blogs) => {
     const sortedBlogs = blogs.sort((a,b) => {
       if (a.likes > b.likes) {
@@ -123,7 +140,7 @@ const App = () => {
         <button onClick={() => toggleBlogForm(true)}>New blog</button>
         }
         {sortBlogs(blogs).map(blog =>
-          <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user}/>
         )}
       </>
         :

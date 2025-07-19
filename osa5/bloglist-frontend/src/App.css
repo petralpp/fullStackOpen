@@ -22,3 +22,7 @@
     border: solid;
     padding: 1%
 }
+
+.delete-button {
+    background-color: rgb(131, 131, 234)
+}

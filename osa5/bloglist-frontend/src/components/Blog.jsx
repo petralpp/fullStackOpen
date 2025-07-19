@@ -1,18 +1,25 @@
 import { useState } from "react"
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   const [size, setSize] = useState("small")
 
   const toggleSize = (s) => {
     setSize(s)
   }
 
-  const handleClick = () => {
+  const handleLike = () => {
     const updatedBlog = {
       ...blog,
       likes: blog.likes + 1
     }
     updateBlog(updatedBlog)
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(`Delete blog \'${blog.title}\' by ${blog.author}?`)) {
+      return
+    }
+    deleteBlog(blog)
   }
 
   if (size == "small") {
@@ -26,8 +33,11 @@ const Blog = ({ blog, updateBlog }) => {
       <div className="blog-div">
         <p>{blog.title} {blog.author} <button onClick={() => toggleSize("small")}>Hide</button></p>
         <p>{blog.url}</p> 
-        <p>{blog.likes} <button onClick={handleClick}>Like</button></p>
+        <p>{blog.likes} <button onClick={handleLike}>Like</button></p>
         <p>{blog.user ? blog.user.name || blog.user.username : null}</p>
+        {blog.user.username === user.username && (
+            <button className="delete-button" onClick={handleDelete}>Delete</button>
+        )}
       </div>
     )
   }  
