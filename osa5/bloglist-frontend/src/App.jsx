@@ -40,7 +40,7 @@ const App = () => {
       }
     } catch (exception) {
       console.log(exception)
-      setNotification({message: "Invalid username or password", type: "error"})
+      setNotification({message: exception.response.data.error, type: "error"})
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -67,8 +67,7 @@ const App = () => {
         }, 5000)
       }
     } catch (exception) {
-      console.log(exception)
-      setNotification({message: "Title or url missing", type: "error"})
+      setNotification({message: exception.response.data.error, type: "error"})
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -86,11 +85,24 @@ const App = () => {
       }))
     } catch (exception) {
       console.log(exception)
-      setNotification({message: "Something went wrong", type: "error"})
+      setNotification({message: exception.response.data.error, type: "error"})
       setTimeout(() => {
         setNotification(null)
       }, 5000)
     }
+  }
+
+  const sortBlogs = (blogs) => {
+    const sortedBlogs = blogs.sort((a,b) => {
+      if (a.likes > b.likes) {
+        return -1
+      } else if (b.likes > a.likes) {
+        return 1
+      } else {
+        return 0
+      }
+    })
+    return sortedBlogs
   }
 
   return (
@@ -110,7 +122,7 @@ const App = () => {
         : 
         <button onClick={() => toggleBlogForm(true)}>New blog</button>
         }
-        {blogs.map(blog =>
+        {sortBlogs(blogs).map(blog =>
           <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
         )}
       </>
