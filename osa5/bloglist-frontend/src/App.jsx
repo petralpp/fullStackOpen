@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -30,17 +30,17 @@ const App = () => {
 
   const handleLogin = async (username, password) => {
     try {
-      const userObject = await loginService.login({username, password})
+      const userObject = await loginService.login({ username, password })
       if (userObject) {
         setUser(userObject)
         blogService.setToken(userObject.token)
         window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(userObject)
-      ) 
+          'loggedBlogappUser', JSON.stringify(userObject)
+        )
       }
     } catch (exception) {
       console.log(exception)
-      setNotification({message: exception.response.data.error, type: "error"})
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -61,13 +61,13 @@ const App = () => {
       const savedBlog = await blogService.create(blog)
       if (savedBlog) {
         setBlogs(blogs.concat(savedBlog))
-        setNotification({message: `A new blog ${savedBlog.title} by ${savedBlog.author} added`, type: "success"})
+        setNotification({ message: `A new blog ${savedBlog.title} by ${savedBlog.author} added`, type: 'success' })
         setTimeout(() => {
           setNotification(null)
         }, 5000)
       }
     } catch (exception) {
-      setNotification({message: exception.response.data.error, type: "error"})
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -85,7 +85,7 @@ const App = () => {
       }))
     } catch (exception) {
       console.log(exception)
-      setNotification({message: exception.response.data.error, type: "error"})
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -96,13 +96,13 @@ const App = () => {
     try {
       await blogService.remove(blog.id)
       setBlogs(blogs.filter(b => b.id !== blog.id))
-      setNotification({message: `Blog ${blog.title} removed`, type: "success"})
+      setNotification({ message: `Blog ${blog.title} removed`, type: 'success' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
     } catch (exception) {
       console.log(exception)
-      setNotification({message: exception.response.data.error, type: "error"})
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -125,30 +125,30 @@ const App = () => {
   return (
     <div>
       { user ?
-      <>
-        <h2>Blogs</h2>
-        <Notification message={notification} />
-        <p>{user.name ? user.name : user.username} logged in</p>
-        <button onClick={handleLogout}>Logout</button>
-        { showBlogForm ?
-         <>
-          <h2>Create new blog</h2>
-          <BlogForm addBlog={addBlog} toggleForm={toggleBlogForm}/>
-          <button onClick={() => toggleBlogForm(false)}>Cancel</button>
-          </>
-        : 
-        <button onClick={() => toggleBlogForm(true)}>New blog</button>
-        }
-        {sortBlogs(blogs).map(blog =>
-          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user}/>
-        )}
-      </>
+        <>
+          <h2>Blogs</h2>
+          <Notification message={notification} />
+          <p>{user.name ? user.name : user.username} logged in</p>
+          <button onClick={handleLogout}>Logout</button>
+          { showBlogForm ?
+            <>
+              <h2>Create new blog</h2>
+              <BlogForm addBlog={addBlog} toggleForm={toggleBlogForm}/>
+              <button onClick={() => toggleBlogForm(false)}>Cancel</button>
+            </>
+            :
+            <button onClick={() => toggleBlogForm(true)}>New blog</button>
+          }
+          {sortBlogs(blogs).map(blog =>
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user}/>
+          )}
+        </>
         :
-      <>
-        <h2>Log in to application</h2>
-        <Notification message={notification} />
-        <LoginForm login={handleLogin}/>
-      </>
+        <>
+          <h2>Log in to application</h2>
+          <Notification message={notification} />
+          <LoginForm login={handleLogin}/>
+        </>
       }
     </div>
   )

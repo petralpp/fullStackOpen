@@ -13,19 +13,19 @@ const getAll = async () => {
 }
 
 const create = async (blog) => {
-    const config = {
-      headers: { Authorization: token },
-    }
-    const response = await axios.post(baseUrl, blog, config)
-    return response.data
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.post(baseUrl, blog, config)
+  return response.data
 }
 
 const update = async (blog) => {
   const config = {
-      headers: { Authorization: token },
-    }
-    const response = await axios.put(baseUrl.concat(`/${blog.id}`), blog, config)
-    return response.data
+    headers: { Authorization: token },
+  }
+  const response = await axios.put(baseUrl.concat(`/${blog.id}`), blog, config)
+  return response.data
 }
 
 const remove = async (id) => {
