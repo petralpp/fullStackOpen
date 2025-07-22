@@ -1,25 +1,47 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
+const fakeUser = { username: 'Tester', name: 'Tester' }
+const fakeUpdateFunc = () => { return 0 }
+const fakeDeleteFunc = () => { return 0 }
+
+const blog = {
+  title: 'Component testing is done with react-testing-library',
+  author: 'The Tester',
+  url: 'http://www.tester.com',
+  likes: 5,
+  user: fakeUser
+}
+
 test('renders only the title and author', () => {
-  const blog = {
-    title: 'Component testing is done with react-testing-library',
-    author: 'The Tester',
-    url: 'http://www.tester.com',
-    likes: 5
-  }
-  const fakeUser = { username: 'Tester', name: 'Tester' }
-  const fakeUpdateFunc = () => { return 0 }
-  const fakeDeleteFunc = () => { return 0 }
   render(<Blog blog={blog} updateBlog={fakeUpdateFunc} deleteBlog={fakeDeleteFunc} user={fakeUser}/>)
 
-  //const element = screen.getByText(`${blog.title} ${blog.author}`)
   const title = screen.getByText(/Component testing is done with react-testing-library/)
-  expect(title).toBeDefined()
   const author = screen.getByText(/The Tester/)
-  expect(author).toBeDefined()
   const url = screen.queryByText('http://www.tester.com')
-  expect(url).toBeNull()
   const likes = screen.queryByText (/5/)
+
+  expect(title).toBeDefined()
+  expect(author).toBeDefined()
+  expect(url).toBeNull()
   expect(likes).toBeNull()
+})
+
+test('renders all blog information after button click', async () => {
+  render(<Blog blog={blog} updateBlog={fakeUpdateFunc} deleteBlog={fakeDeleteFunc} user={fakeUser}/>)
+
+  const user = userEvent.setup()
+  const button = screen.getByText('View')
+  await user.click(button)
+
+  const title = screen.getByText(/Component testing is done with react-testing-library/)
+  const author = screen.getByText(/The Tester/)
+  const url = screen.queryByText('http://www.tester.com')
+  const likes = screen.queryByText (/5/)
+
+  expect(title).toBeDefined()
+  expect(author).toBeDefined()
+  expect(url).toBeDefined()
+  expect(likes).toBeDefined()
 })
