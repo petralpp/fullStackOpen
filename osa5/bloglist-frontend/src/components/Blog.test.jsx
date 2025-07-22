@@ -59,5 +59,4 @@ test('event handler for likes is called after every click', async () => {
   await user.click(likeButton)
 
   expect(mockLikeHandler.mock.calls).toHaveLength(2)
-
 })
