@@ -45,3 +45,19 @@ test('renders all blog information after button click', async () => {
   expect(url).toBeDefined()
   expect(likes).toBeDefined()
 })
+
+test('event handler for likes is called after every click', async () => {
+  const mockLikeHandler = vi.fn()
+  render(<Blog blog={blog} updateBlog={mockLikeHandler} deleteBlog={fakeDeleteFunc} user={fakeUser}/>)
+
+  const user = userEvent.setup()
+  const viewButton = screen.getByText('View')
+  await user.click(viewButton)
+
+  const likeButton = screen.getByText('Like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(mockLikeHandler.mock.calls).toHaveLength(2)
+
+})
