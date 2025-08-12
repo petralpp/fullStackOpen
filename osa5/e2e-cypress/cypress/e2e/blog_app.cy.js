@@ -60,6 +60,12 @@ describe('Blog app', () => {
           cy.contains('Like').click()
           cy.get('.blog-div').contains('1')
       })
+      it('a blog can be deleted', function() {
+        cy.contains('The Test Blog').contains('View').click()
+        cy.contains('Delete').click()
+        cy.contains('Blog The Test Blog removed')
+        cy.contains('The Test Blog The Tester').should('not.exist')
+      })
       it('delete button is visible only for the creator of the blog', function() {
           cy.contains('Logout').click()
           const user = {
