@@ -12,6 +12,7 @@ describe('Blog app', () => {
   it('Login form is shown', function() {
     cy.contains('Log in to application')
   })
+
   describe('Login', function() {
     it('succeeds with correct credentials', function() {
       cy.get('#username').type('mluukkai')
@@ -26,11 +27,10 @@ describe('Blog app', () => {
       cy.contains('invalid username or password')
     })
   })
+
   describe('When logged in', function() {
     beforeEach(function() {
-      cy.get('#username').type('mluukkai')
-      cy.get('#password').type('salainen')
-      cy.contains('Login').click()
+      cy.login({ username: 'mluukkai', password: 'salainen' })
     })
     it('a blog can be created', function() {
       cy.contains('New blog').click()
@@ -40,6 +40,27 @@ describe('Blog app', () => {
       cy.contains('Add').click()
 
       cy.contains('The Test Blog The Tester')
+    })
+
+    describe('and when there are blogs created', function() {
+      beforeEach(function() {
+        cy.createBlog({
+          title: 'The Test Blog',
+          author: 'The Tester',
+          url: 'http://www.tester.com'
+        })
+        cy.createBlog({
+          title: 'Another Test Blog',
+          author: 'The Tester',
+          url: 'http://www.tester.com'
+        })
+      })
+      it('a blog can be liked', function() {
+          cy.contains('The Test Blog').contains('View').click()
+          cy.contains('Like').click()
+          cy.get('.blog-div').contains('1')
+        })
+
     })
   })
 })
