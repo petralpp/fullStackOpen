@@ -59,8 +59,20 @@ describe('Blog app', () => {
           cy.contains('The Test Blog').contains('View').click()
           cy.contains('Like').click()
           cy.get('.blog-div').contains('1')
-        })
+      })
+      it('delete button is visible only for the creator of the blog', function() {
+          cy.contains('Logout').click()
+          const user = {
+            name: 'Luukka Mattinen',
+            username: 'lmatti',
+            password: 'julkinen'
+          }
+          cy.request('POST', 'http://localhost:3003/api/users/', user)
+          cy.login({ username: 'lmatti', password: 'julkinen' })
 
+          cy.contains('The Test Blog').contains('View').click()
+          cy.contains('Delete').should('not.exist')
+      })
     })
   })
 })
