@@ -79,6 +79,14 @@ describe('Blog app', () => {
           cy.contains('The Test Blog').contains('View').click()
           cy.contains('Delete').should('not.exist')
       })
+      it('blogs are in descending order based on likes', function() {
+        cy.contains('Another Test Blog').contains('View').click()
+        cy.contains('Like').click()
+        cy.contains('1')
+
+        cy.get('.blog-div').eq(0).should('contain', 'Another Test Blog')
+        cy.get('.blog-div').eq(1).should('contain', 'The Test Blog')
+      })
     })
   })
 })

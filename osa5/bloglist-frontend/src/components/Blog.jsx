@@ -25,7 +25,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
 
   if (size === 'small') {
     return (
-      <div>
+      <div className="blog-div">
         <p>{blog.title} {blog.author} <button onClick={() => toggleSize('big')}>View</button></p>
       </div>
     )
