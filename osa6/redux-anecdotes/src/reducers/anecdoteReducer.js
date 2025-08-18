@@ -30,8 +30,6 @@ export const voteAnecdote = (id) => ({
 })
 
 const reducer = (state = initialState, action) => {
-  console.log('action', action)
-  console.log('state now: ', state)
 
   switch (action.type) {
     case 'VOTE':
