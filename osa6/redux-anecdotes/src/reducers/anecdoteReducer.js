@@ -29,8 +29,7 @@ export const voteAnecdote = (id) => ({
   payload: id
 })
 
-const reducer = (state = initialState, action) => {
-
+const anecdoteReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'VOTE':
       return state.map(a => {
@@ -47,4 +46,4 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export default reducer
+export default anecdoteReducer
