@@ -9,11 +9,8 @@ const AnecdoteForm = () => {
         e.preventDefault()
         const anecdote = e.target.anecdote.value
         dispatch(createAnecdote(anecdote))
-        dispatch(setNotification(`You added '${anecdote}'`))
+        dispatch(setNotification(`You added '${anecdote}'`, 5))
         e.target.anecdote.value = ""
-        setTimeout(() => {
-            dispatch(setNotification(''))
-        }, 5000)
     }
 
     return(
