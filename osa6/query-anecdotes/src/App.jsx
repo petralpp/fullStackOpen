@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { getAnecdotes } from './services/requests'
+import { getAnecdotes, createAnecdote } from './services/requests'
 
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
@@ -14,16 +14,12 @@ const App = () => {
       retry: 1
     }
   )
-  //console.log(JSON.parse(JSON.stringify(result)))
-
   if ( result.isLoading ) {
     return <div>loading data...</div>
   }
-
   if ( result.isError ) {
     return <div>anecdote data not available due to problems in server</div>
   }
-
   const anecdotes = result.data
 
   const handleVote = (anecdote) => {
