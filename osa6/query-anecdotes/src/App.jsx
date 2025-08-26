@@ -3,8 +3,10 @@ import { getAnecdotes, updateAnecdote } from './services/requests'
 
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import { useNotificationDispatch } from './contexts/NotificationContext'
 
 const App = () => {
+  const dispatch = useNotificationDispatch()
   const queryClient = useQueryClient()
 
   const result = useQuery(
@@ -33,27 +35,29 @@ const App = () => {
 
   const handleVote = (anecdote) => {
     updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes+1 })
+    dispatch({type: 'VOTE', payload: anecdote.content})
+    setTimeout(() => {
+      dispatch({type: 'EMPTY'})
+    }, 5000)
   }
 
   return (
-    <div>
-      <h3>Anecdote app</h3>
-    
-      <Notification />
-      <AnecdoteForm />
-    
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
+      <div>
+        <h3>Anecdote app</h3>
+        <Notification />
+        <AnecdoteForm />
+        {anecdotes.map(anecdote =>
+          <div key={anecdote.id}>
+            <div>
+              {anecdote.content}
+            </div>
+            <div>
+              has {anecdote.votes}
+              <button onClick={() => handleVote(anecdote)}>vote</button>
+            </div>
           </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote)}>vote</button>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
   )
 }
 
