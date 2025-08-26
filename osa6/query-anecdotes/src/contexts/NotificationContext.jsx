@@ -8,6 +8,8 @@ const messageReducer = (state, action) => {
         return `You added '${action.payload}'`
     case "VOTE":
         return `You voted '${action.payload}'`
+    case "ERROR":
+        return "Too short anecdote, must have length 5 or more"
     case "EMPTY":
         return ""
     default:

@@ -4,13 +4,18 @@ import { useNotificationDispatch } from '../contexts/NotificationContext'
 
 const AnecdoteForm = () => {
   const dispatch = useNotificationDispatch()
-
   const queryClient = useQueryClient()
+
+  const onCreateFailure = () => {
+    dispatch({ type: 'ERROR' })
+  }
+  
   const newAnecdoteMutation = useMutation({ 
     mutationFn: createAnecdote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
-    } 
+    },
+    onError: onCreateFailure
   })
 
   const onCreate = (event) => {
