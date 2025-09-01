@@ -1,10 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useParams } from "react-router-dom"
 
-const Anecdote = ({ anecdotes }) => {
-    const id = useParams().id
-    const anecdote = anecdotes.find(n => n.id === Number(id))
-
+const Anecdote = ({ anecdote }) => {
     return(
         <div>
             <h2>{anecdote.content} by {anecdote.author}</h2>
