@@ -5,14 +5,18 @@ import BlogForm from './BlogForm'
 const blog = {
   title: 'Component testing is done with react-testing-library',
   author: 'The Tester',
-  url: 'http://www.tester.com'
+  url: 'http://www.tester.com',
 }
 
 test('BlogForm gives correct info to callback function', async () => {
   const user = userEvent.setup()
   const mockCreateBlog = vi.fn()
-  const fakeToggleForm = () => { return 0 }
-  const { container } = render(<BlogForm addBlog={mockCreateBlog} toggleForm={fakeToggleForm} />)
+  const fakeToggleForm = () => {
+    return 0
+  }
+  const { container } = render(
+    <BlogForm addBlog={mockCreateBlog} toggleForm={fakeToggleForm} />
+  )
 
   const title = container.querySelector('input[name="Title"]')
   const author = container.querySelector('input[name="Author"]')

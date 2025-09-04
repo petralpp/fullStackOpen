@@ -14,9 +14,7 @@ const App = () => {
   const [showBlogForm, setShowBlogForm] = useState(false)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
+    blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
   useEffect(() => {
@@ -35,12 +33,16 @@ const App = () => {
         setUser(userObject)
         blogService.setToken(userObject.token)
         window.localStorage.setItem(
-          'loggedBlogappUser', JSON.stringify(userObject)
+          'loggedBlogappUser',
+          JSON.stringify(userObject)
         )
       }
     } catch (exception) {
       console.log(exception)
-      setNotification({ message: exception.response.data.error, type: 'error' })
+      setNotification({
+        message: exception.response.data.error,
+        type: 'error',
+      })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -61,13 +63,19 @@ const App = () => {
       const savedBlog = await blogService.create(blog)
       if (savedBlog) {
         setBlogs(blogs.concat(savedBlog))
-        setNotification({ message: `A new blog ${savedBlog.title} by ${savedBlog.author} added`, type: 'success' })
+        setNotification({
+          message: `A new blog ${savedBlog.title} by ${savedBlog.author} added`,
+          type: 'success',
+        })
         setTimeout(() => {
           setNotification(null)
         }, 5000)
       }
     } catch (exception) {
-      setNotification({ message: exception.response.data.error, type: 'error' })
+      setNotification({
+        message: exception.response.data.error,
+        type: 'error',
+      })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -77,15 +85,20 @@ const App = () => {
   const updateBlog = async (blog) => {
     try {
       const updatedBlog = await blogService.update(blog)
-      setBlogs(blogs.map(b => {
-        if (b.id === updatedBlog.id) {
-          return updatedBlog
-        }
-        return b
-      }))
+      setBlogs(
+        blogs.map((b) => {
+          if (b.id === updatedBlog.id) {
+            return updatedBlog
+          }
+          return b
+        })
+      )
     } catch (exception) {
       console.log(exception)
-      setNotification({ message: exception.response.data.error, type: 'error' })
+      setNotification({
+        message: exception.response.data.error,
+        type: 'error',
+      })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -95,14 +108,20 @@ const App = () => {
   const deleteBlog = async (blog) => {
     try {
       await blogService.remove(blog.id)
-      setBlogs(blogs.filter(b => b.id !== blog.id))
-      setNotification({ message: `Blog ${blog.title} removed`, type: 'success' })
+      setBlogs(blogs.filter((b) => b.id !== blog.id))
+      setNotification({
+        message: `Blog ${blog.title} removed`,
+        type: 'success',
+      })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
     } catch (exception) {
       console.log(exception)
-      setNotification({ message: exception.response.data.error, type: 'error' })
+      setNotification({
+        message: exception.response.data.error,
+        type: 'error',
+      })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -110,7 +129,7 @@ const App = () => {
   }
 
   const sortBlogs = (blogs) => {
-    const sortedBlogs = blogs.sort((a,b) => {
+    const sortedBlogs = blogs.sort((a, b) => {
       if (a.likes > b.likes) {
         return -1
       } else if (b.likes > a.likes) {
@@ -124,32 +143,38 @@ const App = () => {
 
   return (
     <div>
-      { user ?
+      {user ? (
         <>
           <h2>Blogs</h2>
           <Notification message={notification} />
           <p>{user.name ? user.name : user.username} logged in</p>
           <button onClick={handleLogout}>Logout</button>
-          { showBlogForm ?
+          {showBlogForm ? (
             <>
               <h2>Create new blog</h2>
-              <BlogForm addBlog={addBlog} toggleForm={toggleBlogForm}/>
+              <BlogForm addBlog={addBlog} toggleForm={toggleBlogForm} />
               <button onClick={() => toggleBlogForm(false)}>Cancel</button>
             </>
-            :
+          ) : (
             <button onClick={() => toggleBlogForm(true)}>New blog</button>
-          }
-          {sortBlogs(blogs).map(blog =>
-            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user}/>
           )}
+          {sortBlogs(blogs).map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlog={updateBlog}
+              deleteBlog={deleteBlog}
+              user={user}
+            />
+          ))}
         </>
-        :
+      ) : (
         <>
           <h2>Log in to application</h2>
           <Notification message={notification} />
-          <LoginForm login={handleLogin}/>
+          <LoginForm login={handleLogin} />
         </>
-      }
+      )}
     </div>
   )
 }
