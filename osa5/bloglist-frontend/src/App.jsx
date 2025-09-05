@@ -39,10 +39,7 @@ const App = () => {
       }
     } catch (exception) {
       console.log(exception)
-      setNotification({
-        message: exception.response.data.error,
-        type: 'error',
-      })
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -72,10 +69,7 @@ const App = () => {
         }, 5000)
       }
     } catch (exception) {
-      setNotification({
-        message: exception.response.data.error,
-        type: 'error',
-      })
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -95,10 +89,7 @@ const App = () => {
       )
     } catch (exception) {
       console.log(exception)
-      setNotification({
-        message: exception.response.data.error,
-        type: 'error',
-      })
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -118,10 +109,7 @@ const App = () => {
       }, 5000)
     } catch (exception) {
       console.log(exception)
-      setNotification({
-        message: exception.response.data.error,
-        type: 'error',
-      })
+      setNotification({ message: exception.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
