@@ -1,29 +1,30 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { voteBlog, deleteBlog } from '../reducers/blogReducer'
+import { useDispatch } from 'react-redux'
 
 const Blog = ({ blog, user }) => {
   const [size, setSize] = useState('small')
+  const dispatch = useDispatch()
 
   const toggleSize = (s) => {
     setSize(s)
   }
 
-  /*
   const handleLike = () => {
     const updatedBlog = {
       ...blog,
       likes: blog.likes + 1,
     }
-    updateBlog(updatedBlog)
-  } */
+    dispatch(voteBlog(updatedBlog))
+  }
 
-  /*
   const handleDelete = () => {
     if (!window.confirm(`Delete blog '${blog.title}' by ${blog.author}?`)) {
       return
     }
-    deleteBlog(blog)
-  } */
+    dispatch(deleteBlog(blog))
+  }
 
   if (size === 'small') {
     return (
@@ -43,10 +44,14 @@ const Blog = ({ blog, user }) => {
         </p>
         <p>{blog.url}</p>
         <p>
-          {blog.likes} <button>Like</button>
+          {blog.likes} <button onClick={handleLike}>Like</button>
         </p>
         <p>{blog.user ? blog.user.name || blog.user.username : null}</p>
-        {blog.user.username === user.username && <button className="delete-button">Delete</button>}
+        {blog.user.username === user.username && (
+          <button className="delete-button" onClick={handleDelete}>
+            Delete
+          </button>
+        )}
       </div>
     )
   }

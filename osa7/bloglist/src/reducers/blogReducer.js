@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
+import { setNotification } from './notificationReducer'
 
 const blogSlice = createSlice({
   name: 'blogs',
@@ -10,6 +11,18 @@ const blogSlice = createSlice({
     },
     setBlogs(_state, action) {
       return action.payload
+    },
+    changeBlog(state, action) {
+      return state.map((b) => {
+        if (b.id !== action.payload.id) {
+          return b
+        } else {
+          return action.payload
+        }
+      })
+    },
+    removeBlog(state, action) {
+      return state.filter((b) => b.id !== action.payload)
     },
   },
 })
@@ -23,10 +36,38 @@ export const initStore = () => {
 
 export const createBlog = (blog) => {
   return async (dispatch) => {
-    const savedBlog = await blogService.create(blog)
-    dispatch(addBlog(savedBlog))
+    try {
+      const savedBlog = await blogService.create(blog)
+      dispatch(addBlog(savedBlog))
+      dispatch(setNotification({ message: `A new blog ${blog.title} by ${blog.author} added`, type: 'success' }, 5))
+    } catch (exception) {
+      dispatch(setNotification({ message: exception.response.data.error, type: 'error' }, 5))
+    }
   }
 }
 
-export const { addBlog, setBlogs } = blogSlice.actions
+export const voteBlog = (blog) => {
+  return async (dispatch) => {
+    try {
+      const updatedBlog = await blogService.update(blog)
+      dispatch(changeBlog(updatedBlog))
+    } catch (exception) {
+      dispatch(setNotification({ message: exception.response.data.error, type: 'error' }, 5))
+    }
+  }
+}
+
+export const deleteBlog = (blog) => {
+  return async (dispatch) => {
+    try {
+      await blogService.remove(blog.id)
+      dispatch(removeBlog(blog.id))
+      dispatch(setNotification({ message: `Blog ${blog.title} removed`, type: 'success' }, 5))
+    } catch (exception) {
+      dispatch(setNotification({ message: exception.response.data.error, type: 'error' }, 5))
+    }
+  }
+}
+
+export const { addBlog, setBlogs, changeBlog, removeBlog } = blogSlice.actions
 export default blogSlice.reducer

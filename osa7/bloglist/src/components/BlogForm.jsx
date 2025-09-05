@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { createBlog } from '../reducers/blogReducer'
-import { setNotification } from '../reducers/notificationReducer'
 
 const BlogForm = ({ toggleForm }) => {
   const [title, setTitle] = useState('')
@@ -10,27 +9,18 @@ const BlogForm = ({ toggleForm }) => {
   const [url, setUrl] = useState('')
   const dispatch = useDispatch()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const newBlog = {
       title: title,
       author: author,
       url: url,
     }
-    await addBlog(newBlog)
+    dispatch(createBlog(newBlog))
     toggleForm(false)
     setTitle('')
     setAuthor('')
     setUrl('')
-  }
-
-  const addBlog = async (blog) => {
-    try {
-      dispatch(createBlog(blog))
-      dispatch(setNotification({ message: `A new blog ${blog.title} by ${blog.author} added`, type: 'success' }, 5))
-    } catch (exception) {
-      dispatch(setNotification({ message: exception.response.data.error, type: 'error' }, 5))
-    }
   }
 
   return (
