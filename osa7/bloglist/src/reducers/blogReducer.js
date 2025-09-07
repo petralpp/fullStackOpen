@@ -27,7 +27,7 @@ const blogSlice = createSlice({
   },
 })
 
-export const initStore = () => {
+export const initBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll()
     dispatch(setBlogs(blogs))
