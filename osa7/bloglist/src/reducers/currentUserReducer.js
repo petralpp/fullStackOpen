@@ -4,11 +4,11 @@ import blogService from '../services/blogs'
 import storageService from '../services/localStorage'
 import { setNotification } from './notificationReducer'
 
-const userReducer = createSlice({
+const currentUserReducer = createSlice({
   name: 'user',
   initialState: null,
   reducers: {
-    setUser(state, action) {
+    setCurrentUser(state, action) {
       return action.payload
     },
   },
@@ -21,7 +21,7 @@ export const loginUser = (username, password) => {
       if (userObject) {
         storageService.addUser('loggedBlogappUser', userObject)
         blogService.setToken(userObject.token)
-        dispatch(setUser(userObject))
+        dispatch(setCurrentUser(userObject))
       }
     } catch (exception) {
       dispatch(setNotification({ message: exception.response.data.error, type: 'error' }, 5))
@@ -29,5 +29,5 @@ export const loginUser = (username, password) => {
   }
 }
 
-export const { setUser } = userReducer.actions
-export default userReducer.reducer
+export const { setCurrentUser, setAllUsers } = currentUserReducer.actions
+export default currentUserReducer.reducer
