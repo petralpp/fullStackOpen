@@ -1,3 +1,23 @@
+#top-bar {
+  background-color: rgb(195, 194, 194);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#nav-bar {
+  width: 10%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#user-bar {
+  width: 20%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 #notification-error {
   border: solid;
   border-color: rgb(254, 70, 70);

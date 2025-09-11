@@ -7,14 +7,15 @@ import { setCurrentUser } from './reducers/currentUserReducer'
 import loginService from './services/login'
 import storageService from './services/localStorage'
 import blogService from './services/blogs'
+import Navigation from './components/Navigation'
 import BlogList from './components/BlogList'
+import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import ToggleBlogForm from './components/ToggleBlogForm'
 import Notification from './components/Notification'
 import UserList from './components/UserList'
 import User from './components/User'
 import './App.css'
-import Blog from './components/Blog'
 
 const App = () => {
   const user = useSelector((state) => state.user)
@@ -42,10 +43,15 @@ const App = () => {
     <div>
       {user ? (
         <>
+          <div id="top-bar">
+            <Navigation />
+            <div id="user-bar">
+              <p>{user.name ? user.name : user.username} logged in</p>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          </div>
           <h2>Blogs</h2>
           <Notification />
-          <p>{user.name ? user.name : user.username} logged in</p>
-          <button onClick={handleLogout}>Logout</button>
           <ToggleBlogForm />
           <Routes>
             <Route path="/" element={<BlogList />} />
