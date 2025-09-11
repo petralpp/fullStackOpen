@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { initBlogs } from './reducers/blogReducer'
@@ -12,6 +12,7 @@ import LoginForm from './components/LoginForm'
 import ToggleBlogForm from './components/ToggleBlogForm'
 import Notification from './components/Notification'
 import UserList from './components/UserList'
+import User from './components/User'
 import './App.css'
 
 const App = () => {
@@ -37,29 +38,28 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <div>
-        {user ? (
-          <>
-            <h2>Blogs</h2>
-            <Notification />
-            <p>{user.name ? user.name : user.username} logged in</p>
-            <button onClick={handleLogout}>Logout</button>
-            <ToggleBlogForm />
-            <Routes>
-              <Route path="/" element={<BlogList user={user} />} />
-              <Route path="/users" element={<UserList />} />
-            </Routes>
-          </>
-        ) : (
-          <>
-            <h2>Log in to application</h2>
-            <Notification />
-            <LoginForm />
-          </>
-        )}
-      </div>
-    </Router>
+    <div>
+      {user ? (
+        <>
+          <h2>Blogs</h2>
+          <Notification />
+          <p>{user.name ? user.name : user.username} logged in</p>
+          <button onClick={handleLogout}>Logout</button>
+          <ToggleBlogForm />
+          <Routes>
+            <Route path="/" element={<BlogList user={user} />} />
+            <Route path="/users/:id" element={<User />} />
+            <Route path="/users" element={<UserList />} />
+          </Routes>
+        </>
+      ) : (
+        <>
+          <h2>Log in to application</h2>
+          <Notification />
+          <LoginForm />
+        </>
+      )}
+    </div>
   )
 }
 
