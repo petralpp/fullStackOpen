@@ -14,6 +14,7 @@ import Notification from './components/Notification'
 import UserList from './components/UserList'
 import User from './components/User'
 import './App.css'
+import Blog from './components/Blog'
 
 const App = () => {
   const user = useSelector((state) => state.user)
@@ -47,7 +48,8 @@ const App = () => {
           <button onClick={handleLogout}>Logout</button>
           <ToggleBlogForm />
           <Routes>
-            <Route path="/" element={<BlogList user={user} />} />
+            <Route path="/" element={<BlogList />} />
+            <Route path="/blogs/:id" element={<Blog />} />
             <Route path="/users/:id" element={<User />} />
             <Route path="/users" element={<UserList />} />
           </Routes>
