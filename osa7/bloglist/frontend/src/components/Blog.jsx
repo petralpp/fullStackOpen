@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { voteBlog, deleteBlog } from '../reducers/blogReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import CommentForm from './CommentForm'
 
 const Blog = () => {
   const id = useParams().id
@@ -42,6 +42,13 @@ const Blog = () => {
           Delete
         </button>
       )}
+      <h2>Comments</h2>
+      <CommentForm blog={blog} />
+      <ul>
+        {blog.comments.map((comment) => (
+          <li key={comment}>{comment}</li>
+        ))}
+      </ul>
     </div>
   )
 }

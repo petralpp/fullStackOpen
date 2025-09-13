@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import Blog from './Blog'
 import { useSelector } from 'react-redux'
 
 const BlogList = () => {
