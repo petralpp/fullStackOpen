@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { createBlog } from '../reducers/blogReducer'
+import { TextField, Button } from '@mui/material'
 
 const BlogForm = ({ toggleForm }) => {
   const [title, setTitle] = useState('')
@@ -24,20 +25,41 @@ const BlogForm = ({ toggleForm }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        Title
-        <input id="title" type="text" name="Title" value={title} onChange={(e) => setTitle(e.target.value)}></input>
-      </div>
-      <div>
-        Author
-        <input id="author" type="text" name="Author" value={author} onChange={(e) => setAuthor(e.target.value)}></input>
-      </div>
-      <div>
-        Url
-        <input id="url" type="url" name="Url" value={url} onChange={(e) => setUrl(e.target.value)}></input>
-      </div>
-      <button type="submit">Add</button>
+    <form id="blog-form" onSubmit={handleSubmit}>
+      <TextField
+        id="title"
+        label="Title"
+        size="small"
+        value={title}
+        onChange={(event) => {
+          setTitle(event.target.value)
+        }}
+      />
+      <TextField
+        id="author"
+        label="Author"
+        size="small"
+        value={author}
+        onChange={(event) => {
+          setAuthor(event.target.value)
+        }}
+      />
+      <TextField
+        id="url"
+        label="Url"
+        type="Url"
+        size="small"
+        value={url}
+        onChange={(event) => {
+          setUrl(event.target.value)
+        }}
+      />
+      <Button variant="contained" color="primary" type="submit">
+        Add
+      </Button>
+      <Button variant="contained" color="primary" onClick={() => toggleForm(false)}>
+        Cancel
+      </Button>
     </form>
   )
 }

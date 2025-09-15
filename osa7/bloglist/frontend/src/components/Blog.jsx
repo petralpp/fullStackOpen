@@ -1,6 +1,7 @@
 import { voteBlog, deleteBlog } from '../reducers/blogReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { Button } from '@mui/material'
 import CommentForm from './CommentForm'
 
 const Blog = () => {
@@ -34,13 +35,16 @@ const Blog = () => {
       </h1>
       <a href={blog.url}>{blog.url}</a>
       <p>
-        {blog.likes} likes <button onClick={handleLike}>Like</button>
+        {blog.likes} likes{' '}
+        <Button variant="contained" size="small" onClick={handleLike}>
+          Like
+        </Button>
       </p>
       <p>added by {blog.user ? blog.user.name || blog.user.username : null}</p>
       {blog.user.username === user.username && (
-        <button className="delete-button" onClick={handleDelete}>
+        <Button variant="contained" size="small" onClick={handleDelete}>
           Delete
-        </button>
+        </Button>
       )}
       <h2>Comments</h2>
       <CommentForm blog={blog} />

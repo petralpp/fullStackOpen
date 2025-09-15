@@ -1,35 +1,25 @@
-#top-bar {
-  background-color: rgb(195, 194, 194);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+p,
+a,
+button,
+form,
+table,
+li,
+h1,
+h2 {
+  font-family: sans-serif;
 }
 
-#nav-bar {
-  width: 10%;
+#new-blog-btn {
+  margin-top: 1%;
+  margin-bottom: 2%;
+}
+
+#blog-form {
+  width: 80%;
+  margin: 2%;
   display: flex;
   justify-content: space-evenly;
-}
-
-#user-bar {
-  width: 20%;
-  display: flex;
-  justify-content: space-evenly;
   align-items: center;
-}
-
-#notification-error {
-  border: solid;
-  border-color: rgb(254, 70, 70);
-  color: red;
-  background-color: rgb(195, 194, 194);
-}
-
-#notification-success {
-  border: solid;
-  border-color: darkgreen;
-  color: green;
-  background-color: rgb(195, 194, 194);
 }
 
 .notification-div {
@@ -41,8 +31,4 @@
 .blog-div {
   border: solid;
   padding: 1%;
-}
-
-.delete-button {
-  background-color: rgb(131, 131, 234);
 }

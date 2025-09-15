@@ -8,6 +8,24 @@ const usersReducer = createSlice({
     setUsers(state, action) {
       return action.payload
     },
+    setUserBlog(state, action) {
+      return state.map((user) => {
+        if (user.id !== action.payload.id) {
+          return user
+        } else {
+          return { ...user, blogs: user.blogs.concat(action.payload.blog) }
+        }
+      })
+    },
+    removeUserBlog(state, action) {
+      return state.map((user) => {
+        if (user.id !== action.payload.userId) {
+          return user
+        } else {
+          return { ...user, blogs: user.blogs.filter((blog) => blog.id !== action.payload.blogId) }
+        }
+      })
+    },
   },
 })
 
@@ -18,5 +36,5 @@ export const initUsers = () => {
   }
 }
 
-export const { setUsers } = usersReducer.actions
+export const { setUsers, setUserBlog, removeUserBlog } = usersReducer.actions
 export default usersReducer.reducer

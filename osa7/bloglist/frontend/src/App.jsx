@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
+import { Typography } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Container } from '@mui/material'
 import { initBlogs } from './reducers/blogReducer'
 import { initUsers } from './reducers/usersReducer'
 import { setCurrentUser } from './reducers/currentUserReducer'
@@ -40,34 +42,32 @@ const App = () => {
   }
 
   return (
-    <div>
-      {user ? (
-        <>
-          <div id="top-bar">
-            <Navigation />
-            <div id="user-bar">
-              <p>{user.name ? user.name : user.username} logged in</p>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
-          </div>
-          <h2>Blogs</h2>
-          <Notification />
-          <ToggleBlogForm />
-          <Routes>
-            <Route path="/" element={<BlogList />} />
-            <Route path="/blogs/:id" element={<Blog />} />
-            <Route path="/users/:id" element={<User />} />
-            <Route path="/users" element={<UserList />} />
-          </Routes>
-        </>
-      ) : (
-        <>
-          <h2>Log in to application</h2>
-          <Notification />
-          <LoginForm />
-        </>
-      )}
-    </div>
+    <Container>
+      <div>
+        {user ? (
+          <>
+            <Navigation handleLogout={handleLogout} />
+            <Typography variant="h3" component="h2" marginTop={2}>
+              Blogs
+            </Typography>
+            <Notification />
+            <ToggleBlogForm />
+            <Routes>
+              <Route path="/" element={<BlogList />} />
+              <Route path="/blogs/:id" element={<Blog />} />
+              <Route path="/users/:id" element={<User />} />
+              <Route path="/users" element={<UserList />} />
+            </Routes>
+          </>
+        ) : (
+          <>
+            <h2>Log in to application</h2>
+            <Notification />
+            <LoginForm />
+          </>
+        )}
+      </div>
+    </Container>
   )
 }
 

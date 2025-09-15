@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import BlogForm from './BlogForm'
+import { Button } from '@mui/material'
 
 const ToggleBlogForm = () => {
   const [showBlogForm, setShowBlogForm] = useState(false)
@@ -11,13 +12,14 @@ const ToggleBlogForm = () => {
   return (
     <>
       {showBlogForm ? (
-        <>
+        <div>
           <h2>Create new blog</h2>
           <BlogForm toggleForm={toggleBlogForm} />
-          <button onClick={() => toggleBlogForm(false)}>Cancel</button>
-        </>
+        </div>
       ) : (
-        <button onClick={() => toggleBlogForm(true)}>New blog</button>
+        <Button id="new-blog-btn" variant="contained" color="primary" onClick={() => toggleBlogForm(true)}>
+          New blog
+        </Button>
       )}
     </>
   )
